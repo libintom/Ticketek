@@ -7,5 +7,5 @@
 
 ## Further Enhancements
 - Switch to the month with latest events
-- Even mouseover popup - quick view
+- Even mouseover popup - Event Quick View
   
