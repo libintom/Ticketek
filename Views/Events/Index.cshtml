@@ -1,0 +1,49 @@
+﻿@model ViewModel
+@using System.Text.Json;
+@using System
+@{
+    <head>
+        <meta charset='utf-8' />
+        <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+        <script>
+            var eventsObj = {
+                events: []
+            };
+            document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth'
+                }
+        );
+                var model = @Html.Raw(JsonSerializer.Serialize(Model.Events));
+                model.forEach(addToList);
+                calendar.addEventSource(eventsObj);
+                calendar.render();
+            });
+
+            function addToList(item) {
+                eventsObj.events.push({
+                    title: item.Name,
+                    start: item.StartDate,
+                    description: item.Description,
+                    url: '/Events/Details?eventId='+ item.Id
+                })
+            }
+
+            function changeVenue(venueId)
+                {
+                window.location.href = '/Events?venueId='+venueId;
+                }
+
+        </script>
+    </head>
+    <body>
+        @Html.DropDownListFor(x => Model.Venues, new SelectList(Model.Venues, "id", "name", "123"), "Please select a venue", htmlAttributes: new { @class = "form-control", id = "Venue", onchange = "changeVenue(this.value)" })
+        @if (Model.selectedVenue > 0)
+        {<div>Selected Venue : @Model.Venues?.FirstOrDefault(x => x.id == Model.selectedVenue)?.name</div><br />}
+        <div id='calendar'></div>
+    </body>
+
+
+
+}

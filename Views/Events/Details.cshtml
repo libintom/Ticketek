@@ -1,0 +1,9 @@
+﻿@model Event
+
+<h1>Event Details</h1>
+
+<h3>@Model.Name</h3>
+<p>Date/Time: @Model.StartDate</p>
+<p>Venue: @Model.VenueName</p>
+@if (!string.IsNullOrEmpty(Model.Description))
+    {<p>Description: @Model.Description</p>}
